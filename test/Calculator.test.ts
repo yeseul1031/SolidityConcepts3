@@ -15,7 +15,17 @@ describe('Calculator', function () {
     mathLibrary = await MathLibrary.deploy();
     await mathLibrary.waitForDeployment();
 
-    const Calculator = await ethers.getContractFactory('Calculator');
+    let Calculator: any;
+
+    try {
+      Calculator = await ethers.getContractFactory('Calculator', {
+        libraries: {
+          MathLibrary: mathLibrary.target,
+        },
+      });
+    } catch (error) {
+      Calculator = await ethers.getContractFactory('Calculator');
+    }
 
     calculator = await Calculator.deploy();
     await calculator.waitForDeployment();
@@ -26,7 +36,7 @@ describe('Calculator', function () {
       it('컨트랙트에서 SPDX 주석으로 라이선스가 있어야 합니다.', async function () {
         const contractPath = path.join(
           __dirname,
-          '../contracts/calculator/AbstractCalculator.sol'
+          '../contracts/AbstractCalculator.sol'
         );
         const sourceCode = fs.readFileSync(contractPath, 'utf8');
         expect(sourceCode.match(/\/\/ SPDX-License-Identifier:/)).to.not.be
@@ -36,7 +46,7 @@ describe('Calculator', function () {
       it('컨트랙트에서 Solidity 버전이 0.8.0 이상, 0.9.0 미만이어야 합니다.', async function () {
         const contractPath = path.join(
           __dirname,
-          '../contracts/calculator/AbstractCalculator.sol'
+          '../contracts/AbstractCalculator.sol'
         );
         const sourceCode = fs.readFileSync(contractPath, 'utf8');
 
@@ -54,7 +64,7 @@ describe('Calculator', function () {
       it('컨트랙트에서 ICalculator.sol을 import해야 합니다.', async function () {
         const contractPath = path.join(
           __dirname,
-          '../contracts/calculator/AbstractCalculator.sol'
+          '../contracts/AbstractCalculator.sol'
         );
         const sourceCode = fs.readFileSync(contractPath, 'utf8');
 
@@ -65,7 +75,7 @@ describe('Calculator', function () {
       it('컨트랙트에서 MathLibrary.sol을 import해야 합니다.', async function () {
         const contractPath = path.join(
           __dirname,
-          '../contracts/calculator/AbstractCalculator.sol'
+          '../contracts/AbstractCalculator.sol'
         );
         const sourceCode = fs.readFileSync(contractPath, 'utf8');
 
@@ -76,7 +86,7 @@ describe('Calculator', function () {
       it('AbstractCalculator가 ICalculator 인터페이스를 상속받아야 합니다.', async function () {
         const contractPath = path.join(
           __dirname,
-          '../contracts/calculator/AbstractCalculator.sol'
+          '../contracts/AbstractCalculator.sol'
         );
         const sourceCode = fs.readFileSync(contractPath, 'utf8');
 
@@ -92,7 +102,7 @@ describe('Calculator', function () {
       it('AbstractCalculator에서는 using for 문법을 사용하여 MathLibrary를 uint256 타입에 적용합니다.', async function () {
         const contractPath = path.join(
           __dirname,
-          '../contracts/calculator/AbstractCalculator.sol'
+          '../contracts/AbstractCalculator.sol'
         );
         const sourceCode = fs.readFileSync(contractPath, 'utf8');
 
@@ -107,7 +117,7 @@ describe('Calculator', function () {
       it('컨트랙트에서 SPDX 주석으로 라이선스가 있어야 합니다.', async function () {
         const contractPath = path.join(
           __dirname,
-          '../contracts/calculator/Calculator.sol'
+          '../contracts/Calculator.sol'
         );
         const sourceCode = fs.readFileSync(contractPath, 'utf8');
         expect(sourceCode.match(/\/\/ SPDX-License-Identifier:/)).to.not.be
@@ -117,7 +127,7 @@ describe('Calculator', function () {
       it('컨트랙트에서 Solidity 버전이 0.8.0 이상, 0.9.0 미만이어야 합니다.', async function () {
         const contractPath = path.join(
           __dirname,
-          '../contracts/calculator/Calculator.sol'
+          '../contracts/Calculator.sol'
         );
         const sourceCode = fs.readFileSync(contractPath, 'utf8');
 
@@ -135,7 +145,7 @@ describe('Calculator', function () {
       it('컨트랙트에서 AbstractCalculator.sol을 import해야 합니다.', async function () {
         const contractPath = path.join(
           __dirname,
-          '../contracts/calculator/Calculator.sol'
+          '../contracts/Calculator.sol'
         );
         const sourceCode = fs.readFileSync(contractPath, 'utf8');
 
@@ -147,7 +157,7 @@ describe('Calculator', function () {
       it('Calculator가 AbstractCalculator를 상속받아야 합니다.', async function () {
         const contractPath = path.join(
           __dirname,
-          '../contracts/calculator/Calculator.sol'
+          '../contracts/Calculator.sol'
         );
         const sourceCode = fs.readFileSync(contractPath, 'utf8');
 
